@@ -114,6 +114,82 @@ describe('Util', () => {
   })
 
   describe('isVisible', () => {
+    // TESTES MC/DC:
+    it('should return true if the element provided is a dom element and is visible', () => {
+      fixtureEl.innerHTML = [
+        '<div id="element" style="display:visible"></div>'
+      ].join('')
+
+      const element = fixtureEl.querySelector('#element')
+
+      expect(Util.isVisible(element)).toBeTrue()
+    })
+
+    it('should return false if the element provided is not a dom, but is an visible object', () => {
+      const element = {
+        getClientRects: () => [{ value: 0 }, { value: 0 }]
+      }
+
+      expect(Util.isVisible(element)).toBeFalse()
+    })
+
+    it('should return false if the element provided is a dom element, but is not visible', () => {
+      fixtureEl.innerHTML = [
+        '<div id="element" style="display:none"></div>'
+      ].join('')
+
+      const element = fixtureEl.querySelector('#element')
+
+      expect(Util.isVisible(element)).toBeFalse()
+    })
+
+    it('should return false if the element provided have a summary tag, but dont is your ancestror element', () => {
+      fixtureEl.innerHTML = [
+        '<details>',
+        ' <div id="element"></div>',
+        '</details>',
+        '<details>',
+        ' <summary>',
+        '   <div id="notIsElement"></div>',
+        ' </summary>',
+        '</details>'
+      ].join('')
+
+      const element = fixtureEl.querySelector('#element')
+
+      expect(Util.isVisible(element)).toBeFalse()
+    })
+
+    it('should return false if the element provided dont have summary tag, but is ancestror element', () => {
+      fixtureEl.innerHTML = [
+        '<summary>',
+        ' <details>',
+        '   <div id="element" style="display:visible"></div>',
+        ' </details>',
+        '</summary>'
+      ].join('')
+
+      const div = fixtureEl.querySelector('#element')
+
+      expect(Util.isVisible(div)).toBeFalse()
+    })
+
+    it('should return true if the element provided have a ancestror details and summary tags', () => {
+      fixtureEl.innerHTML = [
+        '<details>',
+        ' <summary>',
+        '   <div id="element"></div>',
+        ' </summary>',
+        '</details>'
+      ].join('')
+
+      const element = fixtureEl.querySelector('#element')
+
+      expect(Util.isVisible(element)).toBeTrue()
+    })
+
+    // TESTES JÁ EXISTENTES
+
     it('should return false if the element is not defined', () => {
       expect(Util.isVisible(null)).toBeFalse()
       expect(Util.isVisible(undefined)).toBeFalse()
