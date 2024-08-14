@@ -64,6 +64,9 @@ const DefaultType = {
  */
 
 class Modal extends BaseComponent {
+  // Adiciona a propriedade estática para controlar a inicialização automática
+  static disableAutoInit = false;
+
   constructor(element, config) {
     super(element, config)
 
@@ -74,7 +77,10 @@ class Modal extends BaseComponent {
     this._isTransitioning = false
     this._scrollBar = new ScrollBarHelper()
 
-    this._addEventListeners()
+    // Inicialização manual se a inicialização automática estiver desabilitada
+    if (!Modal.disableAutoInit) {
+      this._addEventListeners()
+    }
   }
 
   // Getters
@@ -356,18 +362,10 @@ EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (
     })
   })
 
-  // avoid conflict when clicking modal toggler while another one is open
-  const alreadyOpen = SelectorEngine.findOne(OPEN_SELECTOR)
-  if (alreadyOpen) {
-    Modal.getInstance(alreadyOpen).hide()
-  }
-
   const data = Modal.getOrCreateInstance(target)
 
   data.toggle(this)
 })
-
-enableDismissTrigger(Modal)
 
 /**
  * jQuery
