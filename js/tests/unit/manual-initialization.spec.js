@@ -1,5 +1,5 @@
-// import EventHandler from '../../src/dom/event-handler.js'
-// import Modal from '../../src/modal.js'
+import EventHandler from '../../src/dom/event-handler.js'
+import Modal from '../../src/modal.js'
 import {
   clearBodyAndDocument, clearFixture, getFixture
 } from '../helpers/fixture.js'
@@ -38,39 +38,33 @@ describe('Bootstrap Manual Initialization', () => {
   })
 
   it('should not initialize Bootstrap components automatically', () => {
-    // // Instantiate a Bootstrap Modal but don't manually initialize it
-    // const modal = new Modal(fixtureElement.querySelector('#myModal'))
+    // Instantiate a Bootstrap Modal but don't manually initialize it
+    const modal = new Modal(fixtureElement.querySelector('#myModal'))
 
-    // // Verify that EventHandler.on was not called
-    // expect(modal.on).not.toHaveBeenCalled()
-
-    expect(true).toBe(true)
+    // Verify that EventHandler.on was not called
+    expect(modal.on).not.toHaveBeenCalled()
   })
 
   it('should initialize Bootstrap components when manually initialized', () => {
-    // // Instantiate and manually initialize the Bootstrap Modal
-    // const modalInstance = new Modal(fixtureElement.querySelector('#myModal'))
-    // modalInstance.initialize()
+    // Instantiate and manually initialize the Bootstrap Modal
+    const modalInstance = new Modal(fixtureElement.querySelector('#myModal'))
+    modalInstance.initialize()
 
-    // // Verify that EventHandler.on was called after manual initialization
-    // expect(EventHandler.on).toHaveBeenCalled()
-
-    expect(true).toBe(true)
+    // Verify that EventHandler.on was called after manual initialization
+    expect(EventHandler.on).toHaveBeenCalled()
   })
 
   it('should provide an option to disable automatic initialization globally', () => {
-    // // Set a global flag or option to disable automatic initialization
-    // Modal.disableAutoInit = true
+    // Set a global flag or option to disable automatic initialization
+    Modal.disableAutoInit = true
 
-    // // Instantiate a Bootstrap Modal without manual initialization
-    // const modal = new Modal(fixtureElement.querySelector('#myModal'))
+    // Instantiate a Bootstrap Modal without manual initialization
+    const modal = new Modal(fixtureElement.querySelector('#myModal'))
 
-    // // Verify that EventHandler.on was not called
-    // expect(modal.on).not.toHaveBeenCalled()
+    // Verify that EventHandler.on was not called
+    expect(modal.on).not.toHaveBeenCalled()
 
-    // // Reset the flag for other tests
-    // Modal.disableAutoInit = false
-
-    expect(true).toBe(true)
+    // Reset the flag for other tests
+    Modal.disableAutoInit = false
   })
 })
